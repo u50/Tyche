@@ -10,6 +10,11 @@ type Deck struct {
 	Cards []Card
 }
 
+type Hand struct {
+	First  Card
+	Second Card
+}
+
 type Card struct {
 	Suit string
 	Rank string
@@ -89,8 +94,58 @@ func (card *Card) getRank() string {
 	return card.Rank
 }
 
+func (deck *Deck) drawCard() (Card, Deck) {
+	card := deck.Cards[0]
+	newDeck := append(deck.Cards[:0], deck.Cards[1:]...)
+
+	return card, Deck{newDeck}
+}
+
+func (deck *Deck) drawHand() (Hand, Deck) {
+	first, _ := deck.drawCard()
+	second, newDeck := deck.drawCard()
+
+	return Hand{first, second}, newDeck
+}
+
+func (hand *Hand) getHand() []Card {
+	return []Card{hand.First, hand.Second}
+}
+
+func (deck *Deck) getTheFlop() ([]Card, Deck) {
+	first, _ := deck.drawCard()
+	second, _ := deck.drawCard()
+	third, newDeck := deck.drawCard()
+
+	return []Card{first, second, third}, newDeck
+}
+
+func (deck *Deck) getTheTurn() (Card, Deck) {
+	fourth, newDeck := deck.drawCard()
+
+	return fourth, newDeck
+}
+
+func (deck *Deck) getTheRiver() (Card, Deck) {
+	fifth, newDeck := deck.drawCard()
+
+	return fifth, newDeck
+}
+
 func main() {
 	deck := shuffleDeck()
-	fmt.Println(deck.Cards[0].getSuit())
-	fmt.Println(deck.Cards[0].getRank())
+	communityCards := []Card{}
+	hand, deck := deck.drawHand()
+	fmt.Println(hand.First, hand.Second)
+
+	communityCards, deck = deck.getTheFlop()
+	fmt.Println(communityCards)
+
+	fourth, deck := deck.getTheTurn()
+	communityCards = append(communityCards, fourth)
+	fmt.Println(communityCards)
+
+	fifth, deck := deck.getTheRiver()
+	communityCards = append(communityCards, fifth)
+	fmt.Println(communityCards)
 }
