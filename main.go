@@ -132,20 +132,44 @@ func (deck *Deck) getTheRiver() (Card, Deck) {
 	return fifth, newDeck
 }
 
-func main() {
+func calculateScore(hand Hand, communityCards []Card) int {
+	return 0
+}
+
+func playRound() {
+	// shuffle
 	deck := shuffleDeck()
+
+	// deal hands
+	playerOneHand, deck := deck.drawHand()
+	playerTwoHand, deck := deck.drawHand()
+
+	// show community cards
 	communityCards := []Card{}
-	hand, deck := deck.drawHand()
-	fmt.Println(hand.First, hand.Second)
-
 	communityCards, deck = deck.getTheFlop()
-	fmt.Println(communityCards)
 
+	// show fourth
 	fourth, deck := deck.getTheTurn()
 	communityCards = append(communityCards, fourth)
-	fmt.Println(communityCards)
 
+	// show fifth
 	fifth, deck := deck.getTheRiver()
 	communityCards = append(communityCards, fifth)
-	fmt.Println(communityCards)
+
+	// calculate winner
+	playerOneScore := calculateScore(playerOneHand, communityCards)
+	playerTwoScore := calculateScore(playerTwoHand, communityCards)
+
+	if playerOneScore > playerTwoScore {
+		fmt.Println("Player One Won")
+	}
+	if playerTwoScore > playerOneScore {
+		fmt.Println("Player Two Won")
+	} else {
+		fmt.Println("Draw!")
+	}
+}
+
+func main() {
+	playRound()
 }
