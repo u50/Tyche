@@ -15,29 +15,6 @@ type Card struct {
 	Rank string
 }
 
-// type Suit struct {
-// 	Hearts   string
-// 	Diamonds string
-// 	Clubs    string
-// 	Spades   string
-// }
-
-// type Rank struct {
-// 	Two   string
-// 	Three string
-// 	Four  string
-// 	Five  string
-// 	Six   string
-// 	Seven string
-// 	Eight string
-// 	Nine  string
-// 	Ten   string
-// 	Jack  string
-// 	Queen string
-// 	King  string
-// 	Ace   string
-// }
-
 func shuffleDeck() Deck {
 	deck := Deck{
 		[]Card{
@@ -116,5 +93,4 @@ func main() {
 	deck := shuffleDeck()
 	fmt.Println(deck.Cards[0].getSuit())
 	fmt.Println(deck.Cards[0].getRank())
-
 }
